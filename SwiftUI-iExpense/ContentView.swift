@@ -9,42 +9,60 @@ import SwiftUI
 import Foundation
 import Observation
 
-struct ExpenseItem: Identifiable {
+struct ExpenseItem: Identifiable, Codable {
     var id = UUID()
-    var name: String
-    var type: String
-    var amount: Int
+    let name: String
+    let type: String
+    let amount: Double
 }
 
 @Observable
 class Expenses {
-    var item: [ExpenseItem] = []
+    
+    init() {
+        if let savedData = UserDefaults.standard.data(forKey: "items"),
+           let response = try? JSONDecoder().decode([ExpenseItem].self, from: savedData) {
+            items = response
+            return
+        }
+    }
+    
+    var items: [ExpenseItem] = [] {
+        didSet {
+            if let dataToBeSaved = try? JSONEncoder().encode(items) {
+                UserDefaults.standard.setValue(dataToBeSaved, forKey: "items")
+            }
+        }
+    }
 }
 
 struct ContentView: View {
     
+    @State private var showAddView = false
     let expenses = Expenses()
     
     var body: some View {
         NavigationStack {
             List {
-                ForEach(expenses.item) { item in
-                    VStack {
-                        Text("\(item.name)")
+                ForEach(expenses.items) { item in
+                    HStack {
+                        VStack(alignment: .leading) {
+                            Text("\(item.name)")
+                            Text("\(item.type)")
+                        }
+                        Spacer()
                         Text("\(item.amount)")
-                        Text("\(item.type)")
                     }
                 }.onDelete {
-                    expenses.item.remove(atOffsets: $0)
+                    expenses.items.remove(atOffsets: $0)
                 }
             }
             .navigationTitle("Awesome Sauce")
             .toolbar {
                 Button("add", systemImage: "plus") {
-                    let expenseItem = ExpenseItem(name: "Eggs", type: "Food", amount: 65)
-                    withAnimation {
-                        expenses.item.append(expenseItem)
-                    }
+                    showAddView = true
+                }.sheet(isPresented: $showAddView) {
+                    AddView(expenses: expenses)
                 }
             }
             
