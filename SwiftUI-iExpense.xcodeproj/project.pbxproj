@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		742B0CC82BAFC50F00F3E24F /* ObservableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742B0CC72BAFC50F00F3E24F /* ObservableView.swift */; };
 		74DE308A2BAE86B700ABF671 /* SwiftUI_iExpenseApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74DE30892BAE86B700ABF671 /* SwiftUI_iExpenseApp.swift */; };
 		74DE308C2BAE86B700ABF671 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74DE308B2BAE86B700ABF671 /* ContentView.swift */; };
 		74DE308E2BAE86B800ABF671 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 74DE308D2BAE86B800ABF671 /* Assets.xcassets */; };
@@ -19,6 +20,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		742B0CC72BAFC50F00F3E24F /* ObservableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservableView.swift; sourceTree = "<group>"; };
 		74DE30862BAE86B700ABF671 /* SwiftUI-iExpense.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SwiftUI-iExpense.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		74DE30892BAE86B700ABF671 /* SwiftUI_iExpenseApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUI_iExpenseApp.swift; sourceTree = "<group>"; };
 		74DE308B2BAE86B700ABF671 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -67,6 +69,7 @@
 				74DE309F2BAEC1FF00ABF671 /* StoreCodableView.swift */,
 				74DE30992BAE936500ABF671 /* DeleteItemView.swift */,
 				74DE30972BAE8FB100ABF671 /* SheetView.swift */,
+				742B0CC72BAFC50F00F3E24F /* ObservableView.swift */,
 				74DE308B2BAE86B700ABF671 /* ContentView.swift */,
 				74DE308D2BAE86B800ABF671 /* Assets.xcassets */,
 				74DE308F2BAE86B800ABF671 /* Preview Content */,
@@ -159,6 +162,7 @@
 				74DE308C2BAE86B700ABF671 /* ContentView.swift in Sources */,
 				74DE309C2BAEBDA400ABF671 /* UserDefaultView.swift in Sources */,
 				74DE308A2BAE86B700ABF671 /* SwiftUI_iExpenseApp.swift in Sources */,
+				742B0CC82BAFC50F00F3E24F /* ObservableView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -11,7 +11,7 @@ import SwiftUI
 struct SwiftUI_iExpenseApp: App {
     var body: some Scene {
         WindowGroup {
-            StoreCodableView()
+            ContentView()
         }
     }
 }

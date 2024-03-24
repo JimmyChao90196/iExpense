@@ -9,31 +9,46 @@ import SwiftUI
 import Foundation
 import Observation
 
-@Observable class User {
-    var firstName: String = ""
-    var lastName: String = ""
+struct ExpenseItem: Identifiable {
+    var id = UUID()
+    var name: String
+    var type: String
+    var amount: Int
+}
+
+@Observable
+class Expenses {
+    var item: [ExpenseItem] = []
 }
 
 struct ContentView: View {
     
-    @State private var user = User()
+    let expenses = Expenses()
     
     var body: some View {
-        VStack {
-            
+        NavigationStack {
             List {
-                TextField("Please enter your firstname", text: $user.firstName)
-                TextField("Please enter your lastname", text: $user.lastName)
-                
-                Section {
-                    Text(
-                        """
-                        Your first name is \(user.firstName)
-                        and last name is \(user.lastName)
-                        """
-                    )
+                ForEach(expenses.item) { item in
+                    VStack {
+                        Text("\(item.name)")
+                        Text("\(item.amount)")
+                        Text("\(item.type)")
+                    }
+                }.onDelete {
+                    expenses.item.remove(atOffsets: $0)
                 }
             }
+            .navigationTitle("Awesome Sauce")
+            .toolbar {
+                Button("add", systemImage: "plus") {
+                    let expenseItem = ExpenseItem(name: "Eggs", type: "Food", amount: 65)
+                    withAnimation {
+                        expenses.item.append(expenseItem)
+                    }
+                }
+            }
+            
+            
         }
     }
 }
