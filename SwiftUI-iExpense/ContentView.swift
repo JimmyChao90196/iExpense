@@ -16,6 +16,11 @@ struct ExpenseItem: Identifiable, Codable {
     let amount: Double
 }
 
+enum TypeCategories: String {
+    case Personal
+    case Business
+}
+
 @Observable
 class Expenses {
     
@@ -41,32 +46,87 @@ struct ContentView: View {
     @State private var showAddView = false
     let expenses = Expenses()
     
+    let currencyCode = Locale.current.currency?.identifier ?? "USD"
+    
+    // Formatter
+    private var currencyFormatter: NumberFormatter {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .currency
+        formatter.currencyCode = currencyCode
+        formatter.groupingSeparator = "."
+        formatter.usesGroupingSeparator = true
+        return formatter
+    }
+    
     var body: some View {
         NavigationStack {
             List {
-                ForEach(expenses.items) { item in
-                    HStack {
-                        VStack(alignment: .leading) {
-                            Text("\(item.name)")
-                            Text("\(item.type)")
-                        }
-                        Spacer()
-                        Text("\(item.amount)")
-                    }
-                }.onDelete {
-                    expenses.items.remove(atOffsets: $0)
+                
+                Section("Personal") {
+                    showList(by: .Personal)
                 }
+                
+                Section("Business") {
+                    showList(by: .Business)
+                }
+                
             }
+            .frame(width: 400)
+            .listStyle(PlainListStyle())
             .navigationTitle("Awesome Sauce")
             .toolbar {
+                
+                EditButton()
                 Button("add", systemImage: "plus") {
                     showAddView = true
                 }.sheet(isPresented: $showAddView) {
                     AddView(expenses: expenses)
                 }
             }
+        }
+    }
+    // Return list of view according to category
+    func showList(by type: TypeCategories) -> some View {
+        return ForEach(expenses.items) { item in
+            if type.rawValue == item.type {
+                HStack {
+                    VStack(alignment: .leading) {
+                        Text("\(item.name)")
+                        Text("\(item.type)")
+                    }
+                    Spacer()
+                    Text("\(item.amount.formatted()) \(currencyCode)")
+                }
+                .listRowInsets(.init(
+                    top: 15,
+                    leading: 15,
+                    bottom: 15,
+                    trailing: 15))
+                .padding(20)
+                .background(switchBGcolor(by: item.amount))
+                .clipShape(.rect(cornerRadius: 20))
+            }
+        }.onDelete { indexSet in
             
-            
+            let idsToDelete = indexSet.map { index in
+                expenses.items[index].id
+            }
+            idsToDelete.forEach { id in
+                expenses.items.removeAll { item in
+                    item.id == id
+                }
+            }
+        }
+    }
+    
+    // Helper functions
+    func switchBGcolor(by amount: Double) -> Color {
+        switch amount {
+        case _ where amount <= 10 :
+            return Color.red
+        case _ where amount >= 11 && amount <= 100:
+            return Color.blue
+        default: return Color.green
         }
     }
 }

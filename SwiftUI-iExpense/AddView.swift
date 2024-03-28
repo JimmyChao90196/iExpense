@@ -18,6 +18,18 @@ struct AddView: View {
     let currencyCode = Locale.current.currency?.identifier ?? "USD"
     var expenses: Expenses
     
+    // Formatter
+    private var currencyFormatter: NumberFormatter {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .currency
+        formatter.currencyCode = currencyCode
+        formatter.minimumFractionDigits = 2
+        formatter.maximumFractionDigits = 2
+        formatter.groupingSeparator = "."
+        formatter.usesGroupingSeparator = true
+        return formatter
+    }
+    
     var body: some View {
         NavigationStack {
             Form {
@@ -29,7 +41,7 @@ struct AddView: View {
                     }
                 }
                 
-                TextField("Enter the amount", value: $amount, format: .currency(code: currencyCode))
+                TextField("Enter the amount", value: $amount, formatter: currencyFormatter)
                     .keyboardType(.decimalPad)
             }
             .navigationTitle("Add new expense")
