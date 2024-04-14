@@ -77,9 +77,8 @@ struct ContentView: View {
             .toolbar {
                 
                 EditButton()
-                Button("add", systemImage: "plus") {
-                    showAddView = true
-                }.sheet(isPresented: $showAddView) {
+                
+                NavigationLink("add") {
                     AddView(expenses: expenses)
                 }
             }
@@ -98,9 +97,9 @@ struct ContentView: View {
                     Text("\(item.amount.formatted()) \(currencyCode)")
                 }
                 .listRowInsets(.init(
-                    top: 15,
+                    top: 10,
                     leading: 15,
-                    bottom: 15,
+                    bottom: 10,
                     trailing: 15))
                 .padding(20)
                 .background(switchBGcolor(by: item.amount))
